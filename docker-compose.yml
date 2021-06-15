@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+  app:
+    build: .
+    environment:
+        DB_URL: mysql://root:admin123@db/bookhurt
+    ports:
+      - 8081:8081
+    depends_on: 
+        - db
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: bookhurt
+      MYSQL_ROOT_PASSWORD: admin123
+    volumes:
+      - db_data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+    db_data:
+    
